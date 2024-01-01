@@ -1,4 +1,5 @@
 console.log("Le script est lié avec succès!");
+
 $(document).ready(function () {
     loadData();
 
@@ -37,40 +38,33 @@ $(document).ready(function () {
             $('#data-table tbody').append(row);
         }
     }
+});
 
-    $('#add-form').submit(function (event) {
-        // Empêcher le comportement par défaut du formulaire
-        event.preventDefault();
 
-        // Récupérer les valeurs du formulaire
-        var nom = $('#nom').val();
-        var email = $('#email').val();
+// Utilisez l'ID correct du bouton dans l'écouteur d'événements
+document.getElementById('sendButton').addEventListener('click', function(event) {
+    // Empêche le formulaire de se soumettre normalement
+    event.preventDefault();
 
-        // Créer un objet avec les données à envoyer
-        var formData = {
+    // Utilisez les bons identifiants pour récupérer les valeurs du formulaire
+    var nom = document.getElementById('nom').value;
+    var email = document.getElementById('email').value;
+
+    // Vous pouvez utiliser ces valeurs pour effectuer une action, par exemple, envoyer une requête AJAX
+    $.ajax({
+        url: 'get_data.php',
+        type: 'POST',
+        data: {
             nom: nom,
             email: email
-        };
-
-        $.ajax({
-            type: 'POST', // Méthode HTTP
-            url: 'get_data.php', // L'URL où les données seront traitées par le script PHP
-            data: formData, // Les données à envoyer
-            dataType: 'json', // Type de données attendu en retour
-            success: function (response) {
-                // La fonction à exécuter en cas de succès
-                console.log('Données envoyées avec succès!', response);
-
-                // Ajouter les données au tableau si nécessaire
-                // addData(response.id, response.nom, response.email);
-
-                // Effacer les champs du formulaire
-                $('#add-form')[0].reset();
-            },
-            error: function (error) {
-                // La fonction à exécuter en cas d'erreur
-                console.error('Erreur lors de l\'envoi des données', error);
-            }
-        });
+        },
+        success: function(response) {
+            // Gérez la réponse en conséquence
+            console.log('Message envoyé avec succès');
+        },
+        error: function() {
+            console.log('Erreur lors de l\'envoi du message');
+        }
     });
 });
+

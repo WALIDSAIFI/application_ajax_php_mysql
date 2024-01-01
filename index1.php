@@ -26,11 +26,9 @@
 <form id="add-form">
     <label for="nom">Nom:</label>
     <input type="text" id="nom" name="nom" required></br>
-    
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required></br>
-    
-    <button type="submit">Ajouter</button>
+    <button type="submit" id="sendButton">Ajouter</button>
 </form>
 
 </body>

@@ -4,50 +4,43 @@ $host = 'localhost';
 $user = 'root';
 $pass = '';
 $db   = 'per';
-
+global $conn;
 $conn = new mysqli($host, $user, $pass, $db);
 
 
+
 // Exécutez votre requête SQL pour récupérer les données (remplacez le SELECT par votre propre requête)
-$query = "SELECT *  FROM utilisateurs";
+$query = "SELECT * FROM utilisateurs";
 $result = $conn->query($query);
+
+// Vérification des erreurs dans la requête SELECT
+if (!$result) {
+    die("Erreur dans la requête : " . $conn->error);
+}
 
 // Récupérer les données sous forme de tableau associatif
 $data = array();
 while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
+
 // Renvoyer les données au format JSON
 echo json_encode($data);
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+// Vérification de la méthode de la requête HTTP (POST)
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Récupération des données du formulaire
     $nom = $_POST['nom'];
-    $email = $_POST['email'];
+    $prenom = $_POST['prenom'];
+    $age = $_POST['age'];
 
-    // Utiliser une requête préparée pour éviter les attaques par injection SQL
-    $sql = "INSERT INTO utilisateurs (nom, email, prenom, age) VALUES (?, ?, null, null)";
-    
-    // Préparer la requête
-    $stmt = $conn->prepare($sql);
+    // Requête SQL d'insertion
+    $sql = "INSERT INTO utilisateurs (nom, prenom, age) VALUES ('$nom', '$prenom', '$age')";
 
-    // Binder les paramètres
-    $stmt->bind_param('ss', $nom, $email);
+    // Exécution de la requête d'insertion
+    $res = $conn->query($sql);
 
-    // Exécuter la requête
-    $res = $stmt->execute();
 
-    // Renvoyer une réponse JSON
-    if ($res) {
-        echo json_encode(['success' => true, 'message' => 'Utilisateur ajouté avec succès']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout de l\'utilisateur']);
-    }
-
-    // Terminer le script pour éviter l'exécution inutile du reste du code
-    exit();
 }
-
-
-
-
 
 ?>

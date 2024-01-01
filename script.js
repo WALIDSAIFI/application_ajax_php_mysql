@@ -2,15 +2,13 @@ console.log("Le script est lié avec succès!");
 
 $(document).ready(function () {
     loadData();
-
-    // Actualiser les données toutes les 1 seconde
     setInterval(function () {
         loadData();
-    }, 1000); // Change the interval to 1000 milliseconds (1 second)
+    }, 1000); 
 
     function loadData() {
         $.ajax({
-            url: 'get_data.php', // Pointez vers le script PHP qui récupère les données depuis la base de données
+            url: 'get_data.php', 
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -23,10 +21,8 @@ $(document).ready(function () {
     }
 
     function updateTable(data) {
-        // Vider le corps du tableau
         $('#data-table tbody').empty();
 
-        // Remplir le tableau avec les données
         for (var i = 0; i < data.length; i++) {
             var row =
                 '<tr>' +

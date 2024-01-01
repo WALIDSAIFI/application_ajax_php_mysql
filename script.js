@@ -41,30 +41,30 @@ $(document).ready(function () {
 });
 
 
-// Utilisez l'ID correct du bouton dans l'écouteur d'événements
-document.getElementById('sendButton').addEventListener('click', function(event) {
-    // Empêche le formulaire de se soumettre normalement
-    event.preventDefault();
+$(document).ready(function () {
+    $('#sendButton').on('click', function () {
+        var nom = $('#nom').val();
+        var prenom = $('#prenom').val();
+        var age = $('#age').val();
 
-    // Utilisez les bons identifiants pour récupérer les valeurs du formulaire
-    var nom = document.getElementById('nom').value;
-    var email = document.getElementById('email').value;
-
-    // Vous pouvez utiliser ces valeurs pour effectuer une action, par exemple, envoyer une requête AJAX
-    $.ajax({
-        url: 'get_data.php',
-        type: 'POST',
-        data: {
-            nom: nom,
-            email: email
-        },
-        success: function(response) {
-            // Gérez la réponse en conséquence
-            console.log('Message envoyé avec succès');
-        },
-        error: function() {
-            console.log('Erreur lors de l\'envoi du message');
-        }
+        $.ajax({
+            url: 'get_data.php',
+            type: 'POST',
+            data: {
+                nom: nom,
+                prenom: prenom,
+                age: age,
+            },
+            success: function (response) {
+                console.log('Message sent successfully');
+                $('#nom').val('');
+                $('#prenom').val('');
+                $('#age').val('');
+            },
+            error: function () {
+                console.log('Error sending message');
+            }
+        });
     });
 });
 

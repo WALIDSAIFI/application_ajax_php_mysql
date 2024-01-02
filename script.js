@@ -1,5 +1,6 @@
 console.log("Le script est lié avec succès!");
 
+
 $(document).ready(function () {
     loadData();
     setInterval(function () {
